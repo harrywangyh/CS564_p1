@@ -1,11 +1,13 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <cctype>
-#include <vector>
-#include <sstream>
+//#include <iostream>
+//#include <string>
+//#include <fstream>
+//#include <cctype>
+//#include <vector>
+//#include <sstream>
+#include "wl.h"
+
 using namespace std; // this is a using directive telling the compiler to check the std namespace when resolving identifiers with no prefix
-bool compareChar(char & c1, char & c2)
+/*bool compareChar(char & c1, char & c2)
 {
     if (c1 == c2)
         return true;
@@ -19,7 +21,7 @@ bool case_compare(std::string & str1, std::string &str2)
     return ( (str1.size() == str2.size() ) &&
              std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar) );
 }
-
+*/
 
 void load_file(std::string file){
     std::string myText;
