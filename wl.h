@@ -5,7 +5,12 @@
 #include <vector>
 #include <sstream>
 #include <cstring>
-
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 int compareChar(char c1, char c2)
 {
     return (std::toupper(c1) -std::toupper(c2));
@@ -56,15 +61,11 @@ class Node {
     }
 } *root;
 
-void insert(node* root, char* word, int position){
-    insert_help(root, word, position);
-    //color root to black
-    root->color = black;
-}
 
-void insert_help(node* root,char* word, int positon){
+
+void insert_help(Node* root, char* word, int position){
     if (root == NULL){
-        root = new node(strdup(word),position);
+        root = new Node(strdup(word),position);
         //at this point, index is empty
         //rebalancing here
         return;
@@ -81,8 +82,13 @@ void insert_help(node* root,char* word, int positon){
     }
 }
 
+void insert(Node* root, char* word, int position){
+    insert_help(root, word, position);
+    //color root to black
+    root->color = black;
+}
 //returns the position, if -1, not found
-int look_up(node* root, char* word, int occurance){
+int look_up(Node* root, char* word, int occurance){
    //if root doesn't exist
    if (root == NULL){
         return -1;

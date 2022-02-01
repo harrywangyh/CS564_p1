@@ -7,23 +7,24 @@ char* string_char(string str){
      return const_cast<char*>(str.c_str());
 }
 void load_file(std::string file){
-    char*  myText;
-
-    // Read from the text file
-    ifstream myReadFile(file);
-    if(myReadFile.fail()){
-        //File does not exist code here
+    string  myText;
+    //converts file name to char*
+    char* file_char = string_char(file);
+    int fd = open(file_char, O_RDONLY);
+    if (fd == -1){
         cout<< "ERROR: Invalid command"<<endl;
     }
-    // Use a while loop together with the getline() function to read the file line by line
-    while (getline (myReadFile, myText)) {
-        // Output the text from the file
-        std::cout << myText;
-    }
-    myReadFile.close();
+    close(fd);
 }
 
+int locate_word(string word, string occurance){
+    return 0;
 
+}
+
+void reset(){
+
+}
 //this function checks which command the input invokes
 //then check if the input has the correct number of param
 //return 0 -> load 1 -> locate 2 -> new 3 -> end -1 ->bad command
@@ -83,13 +84,23 @@ int main()
     std::string input;
     string terminate = "end";
     vector<string> niceString;
+    int check;
     do{
         std::cout << ">";
         getline (cin, input);
         parser(input,niceString);
-        check_command(niceString);
-        Node* myNode = new Node(const_cast<char*>(terminate.c_str()),3);
-        //string test[3] = parser(input);
+        check = check_command(niceString);
+        if(check == -1)
+            continue;
+        switch(check){
+            case 0:
+                load_file(niceString.at(1));
+                break;
+            case 1:
+                locate_word(niceString.at(1),niceString.at(2));
+            case 2:
+                reset();
+        }
         //load_file(input);
         niceString.clear();
     } while(case_compare(string_char(input),string_char(terminate))!= 0);
