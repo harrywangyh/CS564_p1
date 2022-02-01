@@ -1,7 +1,7 @@
 #include "wl.h"
 
 using namespace std; // this is a using directive telling the compiler to check the std namespace when resolving identifiers with no prefix
-
+Node* root; 
 
 char* string_char(string str){
      return const_cast<char*>(str.c_str());
@@ -22,9 +22,9 @@ void insert_file(char* addr, int size){
                 copy(buffer.begin(),buffer.end(), newWord);
                 //insert into tree
                 wordCount++;
+                root = insert(root,newWord,wordCount);
                 recent = true;
                 buffer.clear();
-                cout << newWord << " ";
             }
         }
     }
@@ -32,7 +32,10 @@ void insert_file(char* addr, int size){
         char* newWord = new char[buffer.size()+1];
         copy(buffer.begin(),buffer.end(), newWord);
         //insert here
-        cout << newWord << " ";
+        wordCount++;
+        root = insert(root,newWord,wordCount);
+        recent = true;
+        buffer.clear();
     }
 }
 
@@ -134,6 +137,8 @@ int main()
         getline (cin, input);
         parser(input,niceString);
         check = check_command(niceString);
+        //insert(root, string_char("hello"), 3);
+        
         switch(check){
             case 0:
                 load_file(niceString.at(1));

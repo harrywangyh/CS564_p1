@@ -77,34 +77,39 @@ class Node {
       if (NULL != right) delete right;
       if (NULL != index)  delete index;
     }
-} *root;
+};
 
-
-
-void insert_help(Node* root, char* word, int position){
+Node* insert_help(Node* root, char* word, int position){
     if (root == NULL){
+
         root = new Node(strdup(word),position);
         //at this point, index is empty
         //rebalancing here
-        return;
+        return root;
     }
+    Node * ret;
     int isGreater = case_compare(root->word,word);
     //cur > insert_node (go left)
     if(isGreater > 0){
-          insert_help(root->left,word,position);
+          ret = insert_help(root->left,word,position);
+          root->left = ret;
     }else if(isGreater < 0){
-    	insert_help(root->right,word,position);
+        ret = insert_help(root->right,word,position);
+        root->right = ret;
     }else{
-    	//equal, insert a new position
-    	root->index->push_back(position);
+        //equal, insert a new position
+        root->index->push_back(position);
     }
+    return root;
 }
 
-void insert(Node* root, char* word, int position){
-    insert_help(root, word, position);
+Node* insert(Node* root, char* word, int position){
+    root = insert_help(root, word, position);
     //color root to black
     root->color = black;
+    return root;
 }
+
 //returns the position, if -1, not found
 int look_up(Node* root, char* word, int occurance){
    //if root doesn't exist
