@@ -39,6 +39,24 @@ int case_compare(char* str1, char* str2)
     return 0;
 }
 
+bool isNewWord(char cur){
+    //check if it's a valid char by checking its ascii number
+    //check if it is a lowercase
+    if((cur >= 97) && (cur <= 122))
+        return false;
+    //check if it is upper case
+    if((cur >= 65) && (cur <= 90))
+        return false;
+    //check if it is number
+    if((cur >= 48) && (cur <= 57))
+        return false;
+    //check if it is apo
+    if(cur == 39)
+        return false;
+    //no match, terminating for new word
+    return true;
+}
+
 enum Color { red, black };
 class Node {
  public:

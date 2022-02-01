@@ -6,14 +6,37 @@ using namespace std; // this is a using directive telling the compiler to check 
 char* string_char(string str){
      return const_cast<char*>(str.c_str());
 }
+
+
+void insert_file(char* addr, int size){
+    for(int x = 0; x < size; x++){
+        cout << addr[x] << " "<< isNewWord(addr[x]);
+
+    }
+}
+
 void load_file(std::string file){
     string  myText;
     //converts file name to char*
     char* file_char = string_char(file);
     int fd = open(file_char, O_RDONLY);
+    char * addr;
     if (fd == -1){
         cout<< "ERROR: Invalid command"<<endl;
+        return;
     }
+    struct stat sb;
+    if (fstat(fd, &sb) == -1){           /* To obtain file size */
+        cout<< "ERROR: Invalid command"<<endl;
+        return;
+    }
+    addr = (char *)mmap(NULL, sb.st_size +1, PROT_READ,MAP_PRIVATE, fd, 0);
+    if (addr == MAP_FAILED){
+        cout<< "ERROR: Invalid command"<<endl;
+        return;
+    }
+    insert_file(addr,sb.st_size);
+    munmap(addr, sb.st_size +1); 
     close(fd);
 }
 
