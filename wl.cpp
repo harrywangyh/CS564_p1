@@ -3,6 +3,9 @@
 using namespace std; // this is a using directive telling the compiler to check the std namespace when resolving identifiers with no prefix
 
 
+char* string_char(string str){
+     return const_cast<char*>(str.c_str());
+}
 void load_file(std::string file){
     std::string myText;
 
@@ -29,7 +32,7 @@ int check_command(vector<string> &niceString){
     string loader = "load";
     string locater = "locate";
     string reset = "new";
-    if(case_compare(niceString.at(0),loader)){
+    if(case_compare(string_char(niceString.at(0)),string_char(loader)) == 0){
         if(niceString.size() == 2){
             return 0;
         }else{
@@ -37,7 +40,7 @@ int check_command(vector<string> &niceString){
             return -1;
         }   
     }
-    else if(case_compare(niceString.at(0),locater)){
+    else if(case_compare(string_char(niceString.at(0)),string_char(locater))==0){
         if(niceString.size() == 3){
             return 1;
         }else{
@@ -45,7 +48,7 @@ int check_command(vector<string> &niceString){
             return -1;
         }
     }
-    else if(case_compare(niceString.at(0),reset)){
+    else if(case_compare(string_char(niceString.at(0)),string_char(reset))==0){
         if(niceString.size() == 1){
             return 2;
         }else{
@@ -53,7 +56,7 @@ int check_command(vector<string> &niceString){
             return -1;
         }
     }
-    else if(case_compare(niceString.at(0),terminate)){
+    else if(case_compare(string_char(niceString.at(0)),string_char(terminate))==0){
         if(niceString.size() == 1){
             return 3;
         }else{
@@ -86,10 +89,9 @@ int main()
         parser(input,niceString);
         check_command(niceString);
         Node* myNode = new Node(const_cast<char*>(terminate.c_str()),3);
-        cout << myNode->index->at(0) << endl;
         //string test[3] = parser(input);
         //load_file(input);
         niceString.clear();
-    } while(!case_compare(input,terminate));
+    } while(case_compare(string_char(input),string_char(terminate))!= 0);
     return 0;
 }

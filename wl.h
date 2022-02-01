@@ -6,19 +6,32 @@
 #include <sstream>
 #include <cstring>
 
-bool compareChar(char & c1, char & c2)
+int compareChar(char c1, char c2)
 {
-    if (c1 == c2)
-        return true;
-    else if (std::toupper(c1) == std::toupper(c2))
-        return true;
-    return false;
+    return (std::toupper(c1) -std::toupper(c2));
 }
 
-bool case_compare(std::string & str1, std::string &str2)
+
+//compares string based on the perspective of str1
+//if str1 is greater than str2 in any way, > 0
+//if equal return 0
+//if str1 < sr2 in anyway < 0
+int case_compare(char* str1, char* str2)
 {
-    return ( (str1.size() == str2.size() ) &&
-             std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar) );
+    //compare the length of two string
+    if(strlen(str1)>strlen(str2)){
+        return 1;
+    }else if(strlen(str1)<strlen(str2)){
+        return -1;
+    }
+    int temp;
+    //now compare each character
+    for(int x = 0; x < strlen(str1); x++){
+        temp = compareChar(str1[x],str2[x]);
+        if(temp != 0)
+            return temp;
+    }
+    return 0;
 }
 
 enum Color { red, black };
@@ -33,7 +46,7 @@ class Node {
 
     /// @brief Default constructor which sets all member pointers to NULL
     Node():left(NULL), right(NULL), parent(NULL),word(NULL), index(NULL) {}
-    Node(char* word,int position): left(NULL), right(NULL), parent(NULL),word(word), index(new std::vector<int>{position}) {}
+    Node(char* word,int position): left(NULL), right(NULL), parent(NULL), color(red),word(word), index(new std::vector<int>{position}) {}
     /// @brief Destructor for memory deallocation.
     ~Node() {
       if (NULL != word) free(word);
@@ -42,6 +55,7 @@ class Node {
       if (NULL != index)  delete index;
     }
 } *root;
+
 /*
 void insert(node* root, const char* word, int positon){
     if (root == NULL){
@@ -52,7 +66,7 @@ void insert(node* root, const char* word, int positon){
     }
     int isGreater = case_compare(root->word,word);
     if(isGreater > 0){
-        
+          
     }
 
 }
