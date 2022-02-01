@@ -7,7 +7,7 @@ char* string_char(string str){
      return const_cast<char*>(str.c_str());
 }
 void load_file(std::string file){
-    std::string myText;
+    char*  myText;
 
     // Read from the text file
     ifstream myReadFile(file);

@@ -56,18 +56,48 @@ class Node {
     }
 } *root;
 
-/*
-void insert(node* root, const char* word, int positon){
+void insert(node* root, char* word, int position){
+    insert_help(root, word, position);
+    //color root to black
+    root->color = black;
+}
+
+void insert_help(node* root,char* word, int positon){
     if (root == NULL){
-        root = new node(strdup(word));
+        root = new node(strdup(word),position);
         //at this point, index is empty
-        root->index.push_back(position);
+        //rebalancing here
         return;
     }
     int isGreater = case_compare(root->word,word);
+    //cur > insert_node (go left)
     if(isGreater > 0){
-          
+          insert_help(root->left,word,position);
+    }else if(isGreater < 0){
+    	insert_help(root->right,word,position);
+    }else{
+    	//equal, insert a new position
+    	root->index->push_back(position);
     }
-
 }
-*/
+
+//returns the position, if -1, not found
+int look_up(node* root, char* word, int occurance){
+   //if root doesn't exist
+   if (root == NULL){
+        return -1;
+    }
+   //get comparison
+   int isGreater = case_compare(root->word,word);
+   //cur > insert_node (go left)
+    if(isGreater > 0){
+          look_up(root->left,word,occurance);
+    }else if(isGreater < 0){
+    	insert_help(root->right,word,occurance);
+    }
+    //equal, check if the occurance is in range
+    if(occurance > root->index->size()){
+	return -1;
+    }
+    return root->index->at(occurance);
+}
