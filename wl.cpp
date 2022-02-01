@@ -9,9 +9,30 @@ char* string_char(string str){
 
 
 void insert_file(char* addr, int size){
+    bool recent = false;
+    vector<char> buffer;
+    int wordCount = 0;
     for(int x = 0; x < size; x++){
-        cout << addr[x] << " "<< isNewWord(addr[x]);
-
+        if(!isNewWord(addr[x])){
+            buffer.push_back(addr[x]);
+            recent = false;
+        }else{
+            if(!recent){
+                char* newWord = new char[buffer.size()+1];
+                copy(buffer.begin(),buffer.end(), newWord);
+                //insert into tree
+                wordCount++;
+                recent = true;
+                buffer.clear();
+                cout << newWord << " ";
+            }
+        }
+    }
+    if(!recent){
+        char* newWord = new char[buffer.size()+1];
+        copy(buffer.begin(),buffer.end(), newWord);
+        //insert here
+        cout << newWord << " ";
     }
 }
 
@@ -36,7 +57,7 @@ void load_file(std::string file){
         return;
     }
     insert_file(addr,sb.st_size);
-    munmap(addr, sb.st_size +1); 
+    munmap(addr, sb.st_size ); 
     close(fd);
 }
 
@@ -113,8 +134,6 @@ int main()
         getline (cin, input);
         parser(input,niceString);
         check = check_command(niceString);
-        if(check == -1)
-            continue;
         switch(check){
             case 0:
                 load_file(niceString.at(1));
