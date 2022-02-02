@@ -57,6 +57,14 @@ bool isNewWord(char cur){
     return true;
 }
 
+bool isNumber(std::string& str)
+{
+    for (char &c : str) {
+        if (std::isdigit(c) == 0) return false;
+    }
+    return true;
+}
+
 enum Color { red, black };
 class Node {
  public:
@@ -116,17 +124,18 @@ int look_up(Node* root, char* word, int occurance){
    if (root == NULL){
         return -1;
     }
+    
    //get comparison
    int isGreater = case_compare(root->word,word);
    //cur > insert_node (go left)
     if(isGreater > 0){
-          look_up(root->left,word,occurance);
+          return look_up(root->left,word,occurance);
     }else if(isGreater < 0){
-    	insert_help(root->right,word,occurance);
+    	return look_up(root->right,word,occurance);
     }
     //equal, check if the occurance is in range
     if(occurance > root->index->size()){
 	return -1;
     }
-    return root->index->at(occurance);
+    return root->index->at(occurance-1);
 }

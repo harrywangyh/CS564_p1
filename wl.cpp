@@ -40,6 +40,7 @@ void insert_file(char* addr, int size){
 }
 
 void load_file(std::string file){
+    root = NULL;
     string  myText;
     //converts file name to char*
     char* file_char = string_char(file);
@@ -64,13 +65,23 @@ void load_file(std::string file){
     close(fd);
 }
 
-int locate_word(string word, string occurance){
-    return 0;
-
+void locate_word(string word, string occurance){
+    char * test_word = string_char(word);
+    if(!isNumber(occurance)){
+        cout << "ERROR: Invalid command"<<endl;
+        return;
+    }
+    //convert string to num
+    int ocur_num = stoi(occurance);   
+    int index = look_up(root, test_word,ocur_num);
+    if(index == -1)
+        cout << "No matching entry"<<endl;
+    else
+        cout << index << endl;
 }
 
 void reset(){
-
+    root = NULL;
 }
 //this function checks which command the input invokes
 //then check if the input has the correct number of param
