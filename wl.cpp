@@ -72,8 +72,9 @@ void locate_word(string word, string occurance){
         return;
     }
     //convert string to num
-    int ocur_num = stoi(occurance);   
-    int index = look_up(root, test_word,ocur_num);
+    int ocur_num = stoi(occurance);  
+    Node* searchNode = root; 
+    int index = look_up(searchNode, test_word,ocur_num);
     if(index == -1)
         cout << "No matching entry"<<endl;
     else
@@ -156,8 +157,10 @@ int main()
                 break;
             case 1:
                 locate_word(niceString.at(1),niceString.at(2));
+                break;
             case 2:
                 reset();
+                break;
         }
         //load_file(input);
         niceString.clear();
