@@ -23,15 +23,33 @@ int compareChar(char c1, char c2)
 //if str1 < sr2 in anyway < 0
 int case_compare(char* str1, char* str2)
 {
+    int temp;
     //compare the length of two string
     if(strlen(str1)>strlen(str2)){
+        //str1 is longer than str2, iterate through both string with the length of 2
+        //so if it's a tie after the loop, str1 is greater then 2
+        for(int x = 0; x < strlen(str2); x++){
+        //check if one of the string is greater than the other
+        //check if the current index
+            temp = compareChar(str1[x],str2[x]);
+            if(temp != 0)
+                return temp;
+        }
         return 1;
     }else if(strlen(str1)<strlen(str2)){
+        for(int x = 0; x < strlen(str1); x++){
+        //check if one of the string is greater than the other
+        //check if the current index
+            temp = compareChar(str1[x],str2[x]);
+            if(temp != 0)
+                return temp;
+        }
         return -1;
     }
-    int temp;
     //now compare each character
     for(int x = 0; x < strlen(str1); x++){
+        //check if one of the string is greater than the other
+        //check if the current index
         temp = compareChar(str1[x],str2[x]);
         if(temp != 0)
             return temp;

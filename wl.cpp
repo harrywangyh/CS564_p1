@@ -7,6 +7,18 @@ char* string_char(string str){
      return const_cast<char*>(str.c_str());
 }
 
+void print_tree(Node* root){
+    if (root == NULL)
+        return;
+    print_tree(root->left);
+    cout << "word: " << root->word <<" ";
+    cout << "position ";
+    for(int x =0; x < root->index->size(); x++){
+        cout << root->index->at(x) << " ";
+    }
+    cout << endl;
+    print_tree(root->right);
+}
 
 void insert_file(char* addr, int size){
     bool recent = false;
