@@ -20,6 +20,15 @@ void print_tree(Node* root){
     print_tree(root->right);
 }
 
+
+bool is_valid(string test){
+    char* test_char = string_char(test);
+    for(int x = 0; x < strlen(test_char); x++){
+        if(isNewWord(test_char[x]))
+            return false;
+    }
+    return true;
+}
 void insert_file(char* addr, int size){
     bool recent = false;
     vector<char> buffer;
@@ -52,7 +61,7 @@ void insert_file(char* addr, int size){
 }
 
 void load_file(std::string file){
-    root = NULL;
+    reset(root);
     string  myText;
     //converts file name to char*
     char* file_char = string_char(file);
@@ -83,6 +92,10 @@ void locate_word(string word, string occurance){
         cout << "ERROR: Invalid command"<<endl;
         return;
     }
+    if(!is_valid(word)){
+        cout << "ERROR: Invalid command"<<endl;
+        return;
+    }
     //convert string to num
     int ocur_num = stoi(occurance);  
     Node* searchNode = root; 
@@ -93,8 +106,12 @@ void locate_word(string word, string occurance){
         cout << index << endl;
 }
 
-void reset(){
-    root = NULL;
+void reset(Node* root){
+    if(root == NULL)
+        return;
+    reset(root->left);
+    reset(root->right);
+    free(root);
 }
 //this function checks which command the input invokes
 //then check if the input has the correct number of param
@@ -171,11 +188,12 @@ int main()
                 locate_word(niceString.at(1),niceString.at(2));
                 break;
             case 2:
-                reset();
+                reset(root);
                 break;
         }
         //load_file(input);
         niceString.clear();
     } while(case_compare(string_char(input),string_char(terminate))!= 0);
+    reset(root);
     return 0;
 }
