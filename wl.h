@@ -28,7 +28,7 @@ int case_compare(char* str1, char* str2)
     if(strlen(str1)>strlen(str2)){
         //str1 is longer than str2, iterate through both string with the length of 2
         //so if it's a tie after the loop, str1 is greater then 2
-        for(int x = 0; x < strlen(str2); x++){
+        for(int x = 0; x < int(strlen(str2)); x++){
         //check if one of the string is greater than the other
         //check if the current index
             temp = compareChar(str1[x],str2[x]);
@@ -37,7 +37,7 @@ int case_compare(char* str1, char* str2)
         }
         return 1;
     }else if(strlen(str1)<strlen(str2)){
-        for(int x = 0; x < strlen(str1); x++){
+        for(int x = 0; x < int(strlen(str1)); x++){
         //check if one of the string is greater than the other
         //check if the current index
             temp = compareChar(str1[x],str2[x]);
@@ -47,7 +47,7 @@ int case_compare(char* str1, char* str2)
         return -1;
     }
     //now compare each character
-    for(int x = 0; x < strlen(str1); x++){
+    for(int x = 0; x < int(strlen(str1)); x++){
         //check if one of the string is greater than the other
         //check if the current index
         temp = compareChar(str1[x],str2[x]);
@@ -83,22 +83,19 @@ bool isNumber(std::string& str)
     return true;
 }
 
-enum Color { red, black };
 class Node {
  public:
     Node* left;       ///< Member Pointer to left subtree of this node.
     Node* right;      ///< Member Pointer to right subtree of this node.
-    Node* parent;     ////pointer to the parent of the node
     char* word;       ///< Member for Word stored in this node.
-    Color color;     ///color of the node
     std::vector<int>* index;  ///< Indices of this word in the input document
 
     /// @brief Default constructor which sets all member pointers to NULL
-    Node():left(NULL), right(NULL), parent(NULL),word(NULL), index(NULL) {}
-    Node(char* word,int position): left(NULL), right(NULL), parent(NULL), color(red),word(word), index(new std::vector<int>{position}) {}
+    Node():left(NULL), right(NULL), word(NULL), index(NULL) {}
+    Node(char* word,int position): left(NULL), right(NULL), word(word), index(new std::vector<int>{position}) {}
     /// @brief Destructor for memory deallocation.
     ~Node() {
-      if (NULL != word) free(word);
+      if (NULL != word) delete[] word;
       if (NULL != left) delete left;
       if (NULL != right) delete right;
       if (NULL != index)  delete index;
@@ -108,7 +105,7 @@ class Node {
 Node* insert_help(Node* root, char* word, int position){
     if (root == NULL){
 
-        root = new Node(strdup(word),position);
+        root = new Node(word,position);
         //at this point, index is empty
         //rebalancing here
         return root;
@@ -123,6 +120,7 @@ Node* insert_help(Node* root, char* word, int position){
         ret = insert_help(root->right,word,position);
         root->right = ret;
     }else{
+        delete[] word;
         //equal, insert a new position
         root->index->push_back(position);
     }
@@ -132,7 +130,6 @@ Node* insert_help(Node* root, char* word, int position){
 Node* insert(Node* root, char* word, int position){
     root = insert_help(root, word, position);
     //color root to black
-    root->color = black;
     return root;
 }
 
@@ -152,7 +149,7 @@ int look_up(Node* root, char* word, int occurance){
     	return look_up(root->right,word,occurance);
     }
     //equal, check if the occurance is in range
-    if(occurance > root->index->size()){
+    if(occurance > int(root->index->size())){
 	return -1;
     }
     return root->index->at(occurance-1);

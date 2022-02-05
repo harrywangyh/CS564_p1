@@ -13,7 +13,7 @@ void print_tree(Node* root){
     print_tree(root->left);
     cout << "word: " << root->word <<" ";
     cout << "position ";
-    for(int x =0; x < root->index->size(); x++){
+    for(int x =0; x < int(root->index->size()); x++){
         cout << root->index->at(x) << " ";
     }
     cout << endl;
