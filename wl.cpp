@@ -118,8 +118,7 @@ void reset_helper(Node* root){
 
 void reset(Node* root){
     if(!deleted){
-        cout << "made here\n";
-        delete root;//reset_helper(root);    
+        root = NULL;//reset_helper(root);    
     }
     deleted = true;
 }
