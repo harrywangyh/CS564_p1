@@ -133,6 +133,7 @@ Node* insert(Node* root, char* word, int position){
     return root;
 }
 
+void reset(Node* root);
 //returns the position, if -1, not found
 int look_up(Node* root, char* word, int occurance){
    //if root doesn't exist
