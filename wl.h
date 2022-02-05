@@ -98,7 +98,7 @@ class Node {
     Node(char* word,int position): left(NULL), right(NULL), parent(NULL), color(red),word(word), index(new std::vector<int>{position}) {}
     /// @brief Destructor for memory deallocation.
     ~Node() {
-      if (NULL != word) free(word);
+      if (NULL != word) delete[] word;
       if (NULL != left) delete left;
       if (NULL != right) delete right;
       if (NULL != index)  delete index;
@@ -108,7 +108,7 @@ class Node {
 Node* insert_help(Node* root, char* word, int position){
     if (root == NULL){
 
-        root = new Node(strdup(word),position);
+        root = new Node((word),position);
         //at this point, index is empty
         //rebalancing here
         return root;

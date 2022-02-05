@@ -2,6 +2,7 @@
 
 using namespace std; // this is a using directive telling the compiler to check the std namespace when resolving identifiers with no prefix
 Node* root; 
+bool deleted = true;
 
 char* string_char(string str){
      return const_cast<char*>(str.c_str());
@@ -84,6 +85,7 @@ void load_file(std::string file){
     insert_file(addr,sb.st_size);
     munmap(addr, sb.st_size ); 
     close(fd);
+    deleted = false;
 }
 
 void locate_word(string word, string occurance){
@@ -106,12 +108,20 @@ void locate_word(string word, string occurance){
         cout << index << endl;
 }
 
-void reset(Node* root){
+void reset_helper(Node* root){
     if(root == NULL)
         return;
     reset(root->left);
     reset(root->right);
-    free(root);
+    delete root;
+}
+
+void reset(Node* root){
+    if(!deleted){
+        cout << "made here\n";
+        delete root;//reset_helper(root);    
+    }
+    deleted = true;
 }
 //this function checks which command the input invokes
 //then check if the input has the correct number of param
